@@ -1,0 +1,31 @@
+{
+  "name": "chords-extractor",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "workspaces": [
+    "packages/app",
+    "packages/api",
+    "packages/audio-analyses-worker",
+    "packages/common"
+  ],
+  "scripts": {
+    "dev:app": "npm run dev --workspace=@chords-extractor/app",
+    "dev:api": "npm run dev --workspace=@chords-extractor/api",
+    "dev:worker": "npm run dev --workspace=@chords-extractor/audio-analyses-worker"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "standard": "17.1.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "standard"
+    ]
+  },
+  "ignorePatterns": [
+    "packages/audio-analysis-py"
+  ]
+}

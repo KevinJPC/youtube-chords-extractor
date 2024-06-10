@@ -1,0 +1,90 @@
+.edit-view-popover {
+  display: flex;
+  gap: .2rem;
+  padding: .5rem .2rem;
+  border: 1px solid rgba(var(--blue-200));
+  background-color: rgba(var(--blue-100));
+  border-radius: 5px;
+  align-items: end;
+}
+
+
+.edit-view-popover, .edit-view-popover__suggested-items-wrapper {
+  -webkit-box-shadow: 0px 0px 8px 2px rgba(var(--black), 1);
+  -moz-box-shadow: 0px 0px 8px 2px rgba(var(--black), 1);
+  box-shadow: 0px 0px 8px 2px rgba(var(--black), 1);
+}
+
+.edit-view-popover__button {
+  width: 27px;
+  height: 27px;
+  background-color: transparent;
+  border: none;
+}
+
+.edit-view-popover__form-wrapper, .edit-view-popover__form {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  gap: 5px;
+}
+
+.edit-view-popover__label {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  font-size: var(--text-xs);
+  gap: 5px;
+  line-height: 1;
+  margin-bottom: 3px;
+}
+
+.edit-view-popover__input {
+  width: 55px;
+  padding: .2rem;
+  border-radius: 3px;
+  border: 1px solid rgb(var(--purple), .3);
+  background-color: rgba(var(--blue-200), 1);
+  font-size: var(--text-md);
+  font-weight: 300;
+}
+
+.edit-view-popover__input:focus {
+  outline: none;
+  border: 1px solid rgb(var(--purple), 1);
+}
+
+.edit-view-popover__suggested-items-wrapper {
+  background-color: rgba(var(--blue-100), 1);
+  border: 1px solid rgba(var(--blue-200), 1);
+  border-radius: 5px;
+  max-height: 150px;
+  overflow-y: auto;
+  width: 50px;
+  overscroll-behavior: contain;
+}
+
+.edit-view-popover__suggested-items-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.edit-view-popover__suggested-items-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.edit-view-popover__suggested-item {
+  padding: .5rem .5rem;
+  width: 100%;
+  cursor: pointer;
+}
+
+.edit-view-popover__suggested-item ~ .edit-view-popover__suggested-item {
+  border-top: 1px solid rgba(var(--blue-200), 1);
+}
+
+.edit-view-popover__suggested-item--hovered {
+  background-color: rgba(var(--blue-200), 1);
+}

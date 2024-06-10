@@ -1,0 +1,9 @@
+.container {
+  max-width: 1050px;
+  width: 95%;
+  margin: 0 auto;
+}
+
+.container--small {
+  max-width: 550px;
+}

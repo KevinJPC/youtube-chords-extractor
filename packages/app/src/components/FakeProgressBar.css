@@ -1,0 +1,16 @@
+.progress-bar {
+  min-width: 1px;
+  height: 7px;
+  background-color: rgba(var(--blue-200));
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+
+.progress-bar__value-background {
+  background-color: rgba(var(--purple));
+  width: 0%;
+  height: 100%;
+  border-radius: 999px;
+  transition: width 1s ease-out;
+}

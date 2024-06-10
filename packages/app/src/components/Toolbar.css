@@ -1,0 +1,61 @@
+.toolbar {
+  list-style: none;
+  border: 1px solid rgba(var(--blue-200));
+  border-radius: 5px;
+  background-color: rgba(var(--blue-100));
+  overflow: hidden;
+  position: relative;
+  --padding: .7rem;
+  --scrollbar-size: 2px;
+}
+
+.toolbar__scrollable {
+  overflow-x: scroll;
+  
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: .7rem;  
+  padding: var(--padding);
+  padding-bottom: calc(var(--padding) - var(--scrollbar-size));
+  overflow-y: hidden;
+}
+
+/* Fade sides */
+.toolbar__scrollable::after, .toolbar__scrollable::before {
+  content: "";
+  position: absolute;
+  height: calc(100% - var(--scrollbar-size));
+  width: var(--padding);
+  top: 0;
+}
+
+.toolbar__scrollable::before {
+  background: linear-gradient(to left, transparent 0%, rgba(var(--blue-100)) 100%);
+  left: 0;
+}
+
+.toolbar__scrollable::after {
+  background: linear-gradient(to right, transparent 0%, rgba(var(--blue-100)) 100%);
+  right: 0;
+}
+/*  */
+
+.toolbar__option {
+  flex-shrink: 0;
+}
+
+.toolbar__scrollable::-webkit-scrollbar {
+  z-index: 2;
+  height: var(--scrollbar-size);
+  width: var(--scrollbar-size);
+}
+
+.toolbar__scrollable::-webkit-scrollbar-track {
+}
+
+.toolbar__scrollable::-webkit-scrollbar-thumb {
+  background: rgba(var(--purple), .4);
+  border-radius: 5px;
+}

@@ -1,0 +1,30 @@
+.tabs {
+
+}
+
+.tabs__labels {
+  list-style: none;
+  display: flex;
+  gap: .3rem;
+  background-color: rgba(var(--blue-100), 1);
+  width: fit-content;
+  padding: .3rem;
+  border-radius: .5rem;
+  border: 1px solid rgba(var(--blue-200));
+}
+
+.tabs__label {
+
+}
+
+.tabs__label-button {
+  border: none;
+  border-radius: .3rem;
+  padding: .3rem .7rem;
+  background-color: transparent;
+  transition: background-color .2s ease-out;
+}
+
+.tabs__label-button[data-active="true"] {
+  background-color: rgba(var(--blue-200));
+}

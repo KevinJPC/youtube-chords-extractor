@@ -1,0 +1,28 @@
+{
+  "name": "@chords-extractor/audio-analyses-worker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node --env-file=./../../.env --watch ./src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bullmq": "5.1.11",
+    "ioredis": "5.3.2",
+    "chord-symbol": "4.0.0",
+    "mongodb": "6.3.0",
+    "@chords-extractor/common": "1.0.0"
+  },
+  "devDependencies": {
+    "standard": "17.1.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "standard"
+    ]
+  }
+}

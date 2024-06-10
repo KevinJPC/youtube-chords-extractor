@@ -1,0 +1,47 @@
+/* adjust grid */
+
+/* 4 beats per bar */
+.chords-row {
+  display: grid;
+  gap: 4px;
+}
+
+.chords-row__chord {
+  position: relative;
+}
+
+.chords-row--4-beat-bar {
+  grid-template-columns: repeat(16, 1fr);
+}
+
+/* Bars divisor */
+.chords-row--4-beat-bar .chords-row__chord:nth-child(4n + 1)::after  {
+  content: "";
+  width: 1px;
+  background-color: rgba(var(--purple));
+  height: 85%;
+  position: absolute; 
+  left: -2px;
+  border-radius: 999px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: .7;
+}
+
+.chords-row--4-beat-bar .chords-row__chord:nth-child(16n + 1)::after { 
+  content: none;
+}
+
+@media (width <80.37rem) {
+  .chords-row--4-beat-bar {
+    grid-template-columns: repeat(8, 1fr);
+  }
+
+  /* 4 beats per bar */
+  .chords-row--4-beat-bar .chords-row__chord:nth-child(8n + 1)::after { 
+    content: none;
+  }
+}
+
+@media (width <=39.37rem) {
+}

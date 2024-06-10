@@ -1,0 +1,12 @@
+node_modules
+.env
+
+# python script
+packages/audio-analysis-py/.venv
+packages/audio-analysis-py/src/__pycache__
+packages/audio-analysis-py/tmp/
+
+# Api
+
+# App
+app/dist

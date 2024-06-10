@@ -1,0 +1,117 @@
+.chord {
+  aspect-ratio: 1/1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+
+  color: rgba(var(--white));
+  cursor: pointer;
+  
+  font-size: clamp(.9rem, 3vw, 1.1rem);
+  line-height: 1;
+  font-weight: 500;
+
+  overflow: hidden;
+
+  user-select: none;
+}
+
+.chord::before {
+  content: "";
+  transition: filter .3s ease;
+  background-color: rgba(var(--blue-100),1);
+  border: 1px solid rgba(var(--blue-200));
+  border-radius: 5px;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.chord:hover.chord::before {
+filter: brightness(1.3);
+}
+
+.chord--editing.chord::before {
+  animation-name: editing;
+  animation-duration: .5s;
+  animation-direction: alternate-reverse;
+  animation-iteration-count: infinite;
+}
+
+@keyframes editing {
+  0% {
+  /* filter: brightness(.9); */
+  border: 1px solid rgba(var(--blue-200), 1);
+  }
+  100% {
+    /* filter: brightness(1.3); */
+  border: 1px solid rgba(var(--purple), 1);
+  }
+}
+
+.chord--current {
+  color: rgba(var(--black));
+
+}
+
+.chord--current.chord::before {
+  background-color: rgba(var(--purple), 1);
+}
+
+.chord--current .bass-note-divisor::after {
+  background-color: rgba(var(--black));
+}
+
+.chord-wrapper {
+  max-width: 100%;
+  width: fit-content;
+  position: relative;
+  overflow-x: clip;
+  text-align: center;
+}
+
+.bass-note-divisor::after {
+  content: "";
+  position: absolute;
+  width: 90%;
+  height: 1px;
+  bottom: 50%;
+  left: 50%;
+  background-color: rgba(var(--white));
+  opacity: .5;
+  transform: translate(-50%);
+  border-radius: 999px;
+}
+
+
+.chords__top {
+}
+
+.chords__root-note {
+}
+
+.chords__signature {
+  font-weight: 300;
+  opacity: .7;
+}
+
+.chords__type {
+  opacity: .7;
+}
+
+.chords__descriptor {
+  font-weight: 300;
+  opacity: .6;
+  position: relative;
+  top: -3.5px;
+  padding-left: 1px;
+  font-size: .8em;
+}
+
+.chords__bass-note {
+  margin-top: 2px;
+  display: inline-block;
+}

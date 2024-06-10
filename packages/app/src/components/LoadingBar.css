@@ -1,0 +1,17 @@
+.loading-bar {
+  background: repeating-linear-gradient(to right, rgba(var(--blue-200)) 0%, rgba(var(--purple)) 50%, rgba(var(--blue-200)) 100%);
+  width: 100%;
+  background-size: 200% auto;
+  background-position: 0 100%;
+  animation: gradient 2s infinite;
+  animation-fill-mode: forwards;
+  animation-timing-function: linear;
+  width: 100%;
+  border-radius: 999px;
+  height: 7px;
+}
+
+@keyframes gradient { 
+  0%   { background-position: 0 0; }
+  100% { background-position: -200% 0; }
+}

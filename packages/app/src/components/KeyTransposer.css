@@ -1,0 +1,12 @@
+.key-transposer {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.key-transposer__button {
+  border: none;
+  background-color: transparent;
+  width: 25px;
+  height: 25px;
+}

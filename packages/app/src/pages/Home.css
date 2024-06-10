@@ -1,0 +1,25 @@
+.landing {
+  padding: 5rem 0;
+}
+
+.landing__title {
+  color: rgba(var(--white));
+  text-align: center;
+  text-wrap: balance;
+  font-size: 2.5rem;
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.landing__accent {
+  color: rgba(var(--purple));
+}
+
+.landing__description {
+  margin-top: 3rem;
+  margin-bottom: 4rem;
+  color: rgba(var(--white));
+  font-weight: 300;
+  text-wrap: pretty;
+  line-height: 1.5;
+}

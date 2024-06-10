@@ -1,0 +1,89 @@
+.audio-analysis-details-accordion {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows .3s cubic-bezier(0,1,.5,1);
+  
+  background-color: rgba(var(--blue-100));
+  border: 1px solid rgba(var(--blue-200));
+  border-radius: 5px;
+  padding: 1rem 1rem 0rem 1rem;
+  font-size: var(--text-sm);
+  font-weight: 300;
+  overflow: hidden;
+  /* position: relative; */
+
+  height: fit-content;
+}
+
+.audio-analysis-details-accordion--hidden {
+  transition: grid-template-rows .3s cubic-bezier(0,0,1,1);
+  grid-template-rows: 0fr;
+  cursor: pointer;
+  position: relative;
+}
+
+.audio-analysis-details-accordion__wrapper {
+  min-height: 15px;
+}
+
+.audio-analysis-details-accordion--hidden::before {
+  content: " ";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 40%, rgba(var(--blue-100)) 85%);
+  transition: opacity .3s ease;
+}
+
+.audio-analysis-details-accordion--hidden:hover .audio-analysis-details-accordion__toggle-button {
+  color: rgba(var(--pink))
+}
+
+.audio-analysis-details-accordion__toggle-button {
+  border: none;
+  background-color: transparent;
+  transition: color .3s ease;
+  z-index: 0;
+  width: fit-content;
+  margin: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.audio-analysis-details-accordion__toggle-button:hover {
+  color: rgba(var(--pink))
+}
+
+.audio-analysis-details-accordion__primary-info {
+  font-weight: 500;
+}
+
+.audio-analysis-details-accordion__primary-info, 
+.audio-analysis-details-accordion__secondary-info {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.audio-analysis-details-accordion__chords-summary {
+}
+
+.audio-analysis-details-accordion__bpm {
+  margin-right: auto;
+}
+
+.audio-analysis-details-accordion__sessions {
+}
+
+.audio-analysis-details-accordion__secondary-info {
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+.audio-analysis-details-accordion__edited-by {
+}
+
+.audio-analysis-details-accordion__midified-at {
+}
