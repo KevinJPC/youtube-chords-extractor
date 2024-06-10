@@ -12,6 +12,7 @@
   "scripts": {
     "dev:app": "npm run dev --workspace=@chords-extractor/app",
     "dev:api": "npm run dev --workspace=@chords-extractor/api",
+    "start:api": "npm run start --workspace=@chords-extractor/api",
     "dev:worker": "npm run dev --workspace=@chords-extractor/audio-analyses-worker"
   },
   "keywords": [],
