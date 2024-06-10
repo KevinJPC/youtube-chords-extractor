@@ -1,0 +1,16 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "watchPatterns": ["packages/api", "packages/common"],
+    "nixpacksPlan": {
+      "phases": {
+        "install": {
+          "cmds": ["npm ci --workspace=@chords-extrator/api --workspace=@chords-extractor/common --omit=dev"] 
+        }
+      }
+    }
+  },
+  "deploy": {
+    "startCommand": "npm run start:api"
+  }
+}
