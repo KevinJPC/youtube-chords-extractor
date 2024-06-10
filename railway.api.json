@@ -5,7 +5,7 @@
     "nixpacksPlan": {
       "phases": {
         "install": {
-          "cmds": ["npm ci --workspace=@chords-extrator/api --workspace=@chords-extractor/common --omit=dev"] 
+          "cmds": ["npm ci --workspace=packages/api --workspace=packages/common --omit=dev"] 
         }
       }
     }
