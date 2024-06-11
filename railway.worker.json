@@ -1,0 +1,16 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "build": {
+    "watchPatterns": ["packages/worker", "packages/common", "packages/audio-analysis-py"],
+    "nixpacksPlan": {
+      "phases": {
+        "install": {
+          "cmds": ["npm ci --workspace=packages/worker --workspace=packages/common --omit=dev && cd packages/audio-analysis-py && python -m pip install pipenv && python -m pipenv install"] 
+        }
+      }
+    }
+  },
+  "deploy": {
+    "startCommand": "npm run start:worker"
+  }
+}
