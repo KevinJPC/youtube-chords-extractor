@@ -7,8 +7,8 @@
         "install": {
           "cmds": [
             "npm ci --workspace=packages/worker --workspace=packages/common --omit=dev",
-            "python3 -m pip install pipenv", 
-            "cd packages/audio-analysis-py && python3 -m pipenv install"
+            "pip install pipenv", 
+            "cd packages/audio-analysis-py && pipenv install"
           ] 
         }
       }
