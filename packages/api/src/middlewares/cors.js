@@ -1,2 +1,6 @@
 import cors from 'cors'
-export const initCors = () => cors()
+import config from '../config/index.js'
+
+export const initCors = () => cors({
+  origin: [config.frontendUrl]
+})

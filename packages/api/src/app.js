@@ -9,7 +9,7 @@ import { errorHandler } from './middlewares/errorHandler.js'
 
 const app = express()
 
-// app.use(initCors())
+app.use(initCors())
 app.use(initJsonParser())
 app.use(initMorgan())
 app.use(initSession())
