@@ -4,9 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+numpy = "==1.23.1"
 vamp = "==1.1.0"
 librosa = "==0.10.2"
-numpy = "==1.23.1"
 yt-dlp = "==2024.4.9"
 
 [dev-packages]
