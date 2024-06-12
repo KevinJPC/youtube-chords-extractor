@@ -17,7 +17,7 @@
         },
         "python:install": {
           "cmds": [
-            "cd packages/audio-analysis-py && PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy"
+            "cd packages/audio-analysis-py && PIPENV_VENV_IN_PROJECT=1 python39 -m pipenv install --deploy"
           ] 
         }
       }
