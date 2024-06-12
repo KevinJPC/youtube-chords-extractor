@@ -1,8 +1,9 @@
-from utils import set_vamp_path, get_youtube_id_argv, print_json
+from utils import prepare_tmp_folder, set_vamp_path, get_youtube_id_argv, print_json
 from analyze import get_audio_data, recognize_bpm_and_beat_times, recognize_chords, map_chords_per_beats, download_from_youtube
 from constants import RESPONSE_STATUS
 
 def main():
+    prepare_tmp_folder()
     set_vamp_path()
     youtube_id = get_youtube_id_argv()
 

@@ -1,12 +1,16 @@
 import os
 import sys
 import json
-import librosa
 from errors import NotYouTubeIdArgvError, VampPathDoesNotExistsError
 
-SCRIPT_PATH = os.path.abspath(__file__)
+FILE_DIR = os.path.dirname(os.path.realpath(__file__))
 VAMP_PATH_NAME = 'VAMP_PATH'
-VAMP_PATH = os.path.join(os.path.dirname(SCRIPT_PATH), '..', 'lib', 'vamp-plugins')
+VAMP_PATH = os.path.join(FILE_DIR, '..', 'lib', 'vamp-plugins')
+
+def prepare_tmp_folder():
+  tmp_path = os.path.join(FILE_DIR, '..', 'tmp')
+  if not os.path.exists(tmp_path):
+    os.makedirs(tmp_path)
 
 def set_vamp_path():
   if(not os.path.exists(VAMP_PATH)):
