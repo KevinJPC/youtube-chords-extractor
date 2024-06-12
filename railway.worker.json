@@ -3,6 +3,7 @@
   "build": {
     "watchPatterns": ["packages/worker", "packages/common", "packages/audio-analysis-py"],
     "nixpacksPlan": {
+      "providers": ["...", "python"],
       "phases": {
         "python:setup": {
           "nixPkgs": ["...", "pipenv"]
