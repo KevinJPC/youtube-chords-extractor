@@ -4,6 +4,9 @@
     "watchPatterns": ["packages/worker", "packages/common", "packages/audio-analysis-py"],
     "nixpacksPlan": {
       "phases": {
+        "python:setup": {
+          "nixPkgs": ["pipenv"]
+        },
         "install": {
           "cmds": [
             "npm ci --workspace=packages/worker --workspace=packages/common --omit=dev",
