@@ -5,7 +5,7 @@
     "nixpacksPlan": {
       "phases": {
         "python:setup": {
-          "nixPkgs": ["...", "pipenv"]
+          "nixPkgs": ["python39", "pipenv"]
         },
         "install": {
           "cmds": [
