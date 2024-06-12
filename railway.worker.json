@@ -10,7 +10,11 @@
         },
         "install": {
           "cmds": [
-            "npm ci --workspace=packages/worker --workspace=packages/common --omit=dev",
+            "npm ci --workspace=packages/worker --workspace=packages/common --omit=dev"
+          ] 
+        },
+        "python:install": {
+          "cmds": [
             "cd packages/audio-analysis-py && PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy"
           ] 
         }
