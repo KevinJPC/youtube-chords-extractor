@@ -4,7 +4,9 @@ from constants import RESPONSE_STATUS
 
 def main():
     prepare_tmp_folder()
+    
     set_vamp_path()
+
     youtube_id = get_youtube_id_argv()
 
     audio_buffer = download_from_youtube(youtube_id)
