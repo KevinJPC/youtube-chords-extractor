@@ -16,7 +16,7 @@
           ] 
         },
         "python:install": {
-          "cmds": ["cd packages/audio-analysis-py && python -m venv --copies /opt/venv && . /opt/venv/bin/activate && PIPENV_VENV_IN_PROJECT=1 pipenv install --sequential"] 
+          "cmds": ["cd packages/audio-analysis-py && python -m venv --copies /opt/venv && . /opt/venv/bin/activate && PIPENV_VENV_IN_PROJECT=1 pipenv install"] 
         }
       }
     }
