@@ -12,7 +12,7 @@
         },
         "install": {
           "cmds": [
-            "npm ci --workspace=packages/worker --workspace=packages/common --omit=dev"
+            "npm ci --omit=dev --workspace=packages/worker --workspace=packages/common"
           ] 
         },
         "python:install": {
