@@ -16,7 +16,7 @@
           ] 
         },
         "python:install": {
-          "cmds": ["cd packages/audio-analysis-py && pip3 install numpy==1.23.1 && PIPENV_VENV_IN_PROJECT=1 pipenv install"] 
+          "cmds": ["cd packages/audio-analysis-py && python -m pip install numpy==1.23.1 && PIPENV_VENV_IN_PROJECT=1 pipenv install"] 
         }
       }
     }
