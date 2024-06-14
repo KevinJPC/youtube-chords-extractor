@@ -9,7 +9,3 @@ class NotYouTubeIdArgvError(Error):
 class VampPathDoesNotExistsError(Error):
   def __init__(self, path):
     super().__init__(f"Vamp path: {path} doesn't exist")
-
-class AudioFileDoesNotExistsError(Error):
-  def __init__(self, path):
-    super().__init__(f"Audio file: {path} doesn't exist")

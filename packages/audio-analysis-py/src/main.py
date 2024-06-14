@@ -1,17 +1,18 @@
 from utils import prepare_tmp_folder, set_vamp_path, get_youtube_id_argv, print_json
-from analyze import get_audio_data, recognize_bpm_and_beat_times, recognize_chords, map_chords_per_beats, download_from_youtube
+from analyze import load_from_youtube, recognize_bpm_and_beat_times, recognize_chords, map_chords_per_beats
 from constants import RESPONSE_STATUS
+import warnings
 
 def main():
+    warnings.filterwarnings("ignore")
+    
     prepare_tmp_folder()
     
     set_vamp_path()
 
     youtube_id = get_youtube_id_argv()
 
-    audio_buffer = download_from_youtube(youtube_id)
-
-    audio_data, sample_rate = get_audio_data(audio_buffer)
+    audio_data, sample_rate = load_from_youtube(youtube_id)
 
     bpm, beat_times = recognize_bpm_and_beat_times(audio_data, sample_rate)
 
