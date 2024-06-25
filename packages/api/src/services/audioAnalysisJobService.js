@@ -16,6 +16,7 @@ const createAudioAnalysisJob = async ({ id }) => {
     if (video === undefined) throw new AppError(errorCodes.AUDIO_ANALYSES_YOUTUBE_VIDEO_NOT_FOUND, 'Youtube video not found', httpCodes.NOT_FOUND)
     const { title, duration } = video
     //  TODO: validate song max duration
+    if (duration > 900) throw new AppError('VIDEO_DURATION_TOO_LONG', 'Song is too long', 400)
     const job = await audioAnalysesQueue().add(id, {
       youtubeId: id,
       title,

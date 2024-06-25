@@ -3,11 +3,15 @@
 /* 4 beats per bar */
 .chords-row {
   display: grid;
-  gap: 4px;
-}
+  gap: .25rem;
+  align-items: stretch;
+  justify-items: stretch;
+  list-style: none;
 
-.chords-row__chord {
-  position: relative;
+  font-size: clamp(.9rem, 3vw, 1.1rem);
+  line-height: 1;
+  user-select: none;
+  color: rgba(var(--white));
 }
 
 .chords-row--4-beat-bar {
@@ -15,21 +19,115 @@
 }
 
 /* Bars divisor */
-.chords-row--4-beat-bar .chords-row__chord:nth-child(4n + 1)::after  {
+.chords-row--4-beat-bar .chord:nth-child(4n + 1)::after  {
   content: "";
-  width: 1px;
+  position: absolute; 
+  width: .05rem;
+  width: 1%;
   background-color: rgba(var(--purple));
   height: 85%;
-  position: absolute; 
-  left: -2px;
+  left: -.3rem;
   border-radius: 999px;
   top: 50%;
   transform: translate(-50%, -50%);
   opacity: .7;
+  }
+
+.chords-row--4-beat-bar .chord:nth-child(16n + 1)::after { 
+  content: none;
 }
 
-.chords-row--4-beat-bar .chords-row__chord:nth-child(16n + 1)::after { 
-  content: none;
+.chords-row--4-beat-bar .chord:nth-child(4n + 1)  {
+  margin-left: .25rem;
+}
+
+.chords-row--4-beat-bar .chord:nth-child(16n + 1)  {
+  margin-left: 0rem;
+}
+
+/* Chord */
+.chord {
+  position: relative;
+  aspect-ratio: 1/1;
+
+  cursor: pointer;
+
+  background-color: rgba(var(--blue-100),1);
+  border: 1px solid rgba(var(--blue-200), 1);
+  border-radius: 5px;
+  text-align: center;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chords__wrapper {
+  max-width: 90%;
+  width: fit-content;
+  overflow-x: clip;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.chord:hover:not(.chord--current) {
+  transition: background-color .3s ease;
+  background-color: rgba(var(--blue-150), 1);
+}
+
+.chord--editing.chord {
+  animation-name: editing;
+  animation-duration: .5s;
+  animation-direction: alternate-reverse;
+  animation-iteration-count: infinite;
+}
+
+@keyframes editing {
+  0% {
+  border: 1px solid rgba(var(--blue-200), 1);
+  }
+  100% {
+  border: 1px solid rgba(var(--blue-250), 1);
+  }
+}
+
+.chord--current {
+  background-color: rgba(var(--blue-170));
+}
+
+.bass-note-divisor::after {
+  content: "";
+  position: absolute;
+  width: 90%;
+  height: .1px;
+  bottom: 50%;
+  left: 50%;
+  background-color: rgba(var(--white));
+  opacity: .6;
+  transform: translate(-50%, 50%);
+  border-radius: 999px;
+}
+
+.chords__signature {
+  font-weight: 300;
+  opacity: .7;
+}
+
+.chords__type {
+  opacity: .7;
+}
+
+.chords__descriptor {
+  font-weight: 300;
+  opacity: .7;
+  vertical-align: top;
+  font-size: .8em;
+}
+
+.chords__bass-note {
 }
 
 @media (width <80.37rem) {
@@ -38,8 +136,11 @@
   }
 
   /* 4 beats per bar */
-  .chords-row--4-beat-bar .chords-row__chord:nth-child(8n + 1)::after { 
+  .chords-row--4-beat-bar .chord:nth-child(8n + 1)::after { 
     content: none;
+  }
+  .chords-row--4-beat-bar .chord.chord:nth-child(8n + 1)  {
+    margin-left: 0rem;
   }
 }
 

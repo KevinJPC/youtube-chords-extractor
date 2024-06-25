@@ -12,11 +12,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@chords-extractor/common": "1.0.0",
     "bullmq": "5.1.11",
-    "ioredis": "5.3.2",
     "chord-symbol": "4.0.0",
-    "mongodb": "6.3.0",
-    "@chords-extractor/common": "1.0.0"
+    "ioredis": "5.3.2",
+    "joi": "^17.13.1",
+    "mongodb": "6.3.0"
   },
   "devDependencies": {
     "standard": "17.1.0"

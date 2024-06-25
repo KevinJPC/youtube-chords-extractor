@@ -1,8 +1,7 @@
 import './ChordsViewsGeneral.css'
 import { checkIsCurrentChord } from '../utils/checkIsCurrentChord'
-import { MemoizedChord } from './Chord'
 import { useCustomizedChordsPerBeatsContext } from './CustomizedChordsPerBeatsContext'
-import { VirtualRowsChordsGrid } from './VirtualRowsChordsGrid'
+import { VirtualRowsChordsGrid, MemoizedChord } from './VirtualRowsChordsGrid'
 import { MuteButton, SeekToStartButton, TogglePlayButton, VolumeSlider, useYoutubePlayerContext } from './YoutubePlayer'
 import { KeyTransposer } from './KeyTransposer'
 import { useCallback } from 'react'
@@ -11,7 +10,7 @@ import { Toolbar } from './Toolbar'
 export const GeneralView = ({ className }) => {
   const { chordsPerBeats } = useCustomizedChordsPerBeatsContext()
   const chordsPerBeatsLastIndex = chordsPerBeats.length - 1
-  const { currentTime, seekTo } = useYoutubePlayerContext()
+  const { seekTo, currentTime } = useYoutubePlayerContext()
 
   const handleOnClickChord = useCallback((e) => {
     const timestamp = Number(e.currentTarget.dataset.timestamp)
@@ -23,7 +22,7 @@ export const GeneralView = ({ className }) => {
     <VirtualRowsChordsGrid
       className={className}
       chordsPerBeats={chordsPerBeats}
-      maxItemsPerVirtualRow={32}
+      maxItemsPerVirtualRow={128}
       itemContent={(index, { chord, timestamp }) => {
         const nextTimestamp = chordsPerBeats[index + 1]?.timestamp
         const isCurrent = checkIsCurrentChord({
@@ -44,6 +43,7 @@ export const GeneralView = ({ className }) => {
             isCurrent={isCurrent}
             onClick={handleOnClickChord}
             data-timestamp={timestamp}
+            key={timestamp}
           />
         )
       }}

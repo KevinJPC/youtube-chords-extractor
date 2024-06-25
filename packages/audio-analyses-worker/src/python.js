@@ -1,27 +1,46 @@
 import path from 'node:path'
+import os from 'node:os'
 import url from 'node:url'
-import { exec, spawn } from 'node:child_process'
+import fs from 'node:fs'
+import { spawn } from 'node:child_process'
 import readLine from 'node:readline'
+import Joi from 'joi'
 
-let _venvPath
-export const loadPythonVenvPath = () => {
+const VENV_INTERPRETER_PATH_BY_PLATFORM = {
+  win32: 'Scripts/python.exe',
+  darwin: 'bin/python',
+  linux: 'bin/python'
+}
+
+let _pythonVenvInterpreter
+export const loadPythonVenvInterpreter = () => {
   return new Promise((resolve, reject) => {
-    exec('cd ../audio-analysis-py && python -m pipenv --venv', (error, stdout, stderr) => {
-      if (error || stderr) {
-        return reject(error || stderr)
-      }
-
-      const venvPath = stdout.trim()
-      console.log('Python virtualenv path loaded')
-      _venvPath = venvPath
-      resolve(venvPath)
+    const configSchema = Joi.object({
+      PYTHON_VENV_PATH: Joi.string().required()
+    }).options({
+      abortEarly: false,
+      stripUnknown: true
     })
+
+    const { error, value: validatedConfig } = configSchema.validate(process.env)
+    if (error) return reject(new Error(`Env variables validation error. ${error.message}`))
+
+    const platform = os.platform()
+    const venvInterpreterFinalPath = VENV_INTERPRETER_PATH_BY_PLATFORM[platform] || null
+
+    if (!venvInterpreterFinalPath) return reject(new Error(`Could not determinate scripts folder name for platform ${platform}`))
+
+    const pythonVenvInterpreter = path.join(validatedConfig.PYTHON_VENV_PATH, venvInterpreterFinalPath)
+    if (!fs.existsSync(pythonVenvInterpreter)) return reject(new Error(`Python interpreter was not found at ${pythonVenvInterpreter}`))
+
+    _pythonVenvInterpreter = pythonVenvInterpreter
+    resolve(_pythonVenvInterpreter)
   })
 }
 
-const getPythonVenvPath = () => {
-  if (!_venvPath) throw new Error('Error getting virtual env path')
-  return _venvPath
+const getPythonVenvInterpreter = () => {
+  if (!_pythonVenvInterpreter) throw new Error('Error getting virtual env interpreter')
+  return _pythonVenvInterpreter
 }
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
@@ -35,8 +54,7 @@ const RESPONSE_STATUS = {
 export const analyzeAudioWithPython = async ({
   youtubeId
 }) => {
-  const PYTHON = path.join(getPythonVenvPath(), 'scripts', 'python')
-  const pythonProcess = spawn(PYTHON, [PYTHON_SCRIPT, youtubeId])
+  const pythonProcess = spawn(getPythonVenvInterpreter(), [PYTHON_SCRIPT, youtubeId])
 
   const stdoutLineReader = readLine.createInterface({ input: pythonProcess.stdout })
 

@@ -62,7 +62,7 @@ export class YoutubeMusicService {
         ? {
             id: res.basic_info.id,
             title: res.basic_info.title,
-            duration: res.basic_info.duration.seconds
+            duration: res.basic_info.duration
           }
         : undefined
     } catch (error) {

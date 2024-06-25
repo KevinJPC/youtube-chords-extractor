@@ -5,21 +5,22 @@ import React, { forwardRef, useContext, useRef, createContext } from 'react'
 export const VirtualRowsChordsGrid = forwardRef(({
   className = '',
   chordsPerBeats,
-  maxItemsPerVirtualRow,
+  maxItemsPerVirtualRow = 128,
   itemContent,
   beatsPerBar = 4,
   initialOffset,
   initialMeasurementsCache,
-  onChange
+  onChange,
+  overscan = 2
 }, ref) => {
   const listRef = useRef(null)
   const count = Math.ceil(chordsPerBeats.length / maxItemsPerVirtualRow)
   const virtualizer = useWindowVirtualizer({
     count,
     estimateSize: () => 200,
-    overscan: 0,
-    // scrollMargin: listRef.current?.offsetTop ? listRef.current.offsetTop - 100 : 0,
+    overscan,
     scrollMargin: listRef.current?.offsetTop ?? 0,
+    // scrollMargin: listRef.current?.offsetTop ? listRef.current.offsetTop - 100 : 0,
     initialOffset: initialOffset || undefined,
     initialMeasurementsCache: initialMeasurementsCache || undefined,
     gap: 4,
@@ -45,37 +46,58 @@ export const VirtualRowsChordsGrid = forwardRef(({
         position: 'relative'
       }}
     >
-      {items.map(({ key: rowKey, index: rowIndex, start }) => (
-        <div
-          key={rowKey}
-          data-index={rowIndex}
-          ref={virtualizer.measureElement}
-          style={{
-            position: 'absolute',
-            inset: '0 0 auto',
-            top: `${start - virtualizer.options.scrollMargin}px`
-            // transform: `translateY(${start - virtualizer.options.scrollMargin}px)`
-          }}
-          className={`chords-row chords-row--${beatsPerBar}-beat-bar`}
-        >
-          {Array(maxItemsPerVirtualRow).fill(null).map((_, columnIndex) => {
-            const currentIndex = rowIndex * maxItemsPerVirtualRow + columnIndex
-            const currentChord = chordsPerBeats[currentIndex]
-            if (currentChord === undefined) return null
-            return (
-              <div
-                className='chords-row__chord' key={currentIndex}
-              >
-                {itemContent(currentIndex, currentChord)}
-              </div>
-            )
-          }
-          )}
-        </div>
-      ))}
+      {items.map(({ key: rowKey, index: rowIndex, start }) => {
+        const rowStartIndex = rowIndex * maxItemsPerVirtualRow
+        const rowEndIndex = Math.min(rowStartIndex + maxItemsPerVirtualRow, chordsPerBeats.length)
+        const totalColumns = rowEndIndex - rowStartIndex
+        return (
+          <div
+            key={rowKey}
+            data-index={rowIndex}
+            ref={virtualizer.measureElement}
+            style={{
+              position: 'absolute',
+              inset: '0 0 auto',
+              top: `${start - virtualizer.options.scrollMargin}px`
+            }}
+            className={`chords-row chords-row--${beatsPerBar}-beat-bar`}
+          >
+            {Array(totalColumns).fill(null).map((_, columnIndex) => {
+              const currentIndex = rowStartIndex + columnIndex
+              const currentChord = chordsPerBeats[currentIndex]
+              return itemContent(currentIndex, currentChord)
+            }
+            )}
+          </div>
+        )
+      })}
     </div>
   )
 })
+
+export const Chord = ({ rootNote, signature, type, descriptor, bassNote, isCurrent, onClick = () => {}, isEditing, onDoubleClick = () => {}, ...props }) => {
+  return (
+    <li
+      className={`chord chords-row__chord ${isCurrent ? 'chord--current' : ''} ${isEditing ? 'chord--editing' : ''}`}
+      onClick={onClick}
+      onDoubleClick={onDoubleClick}
+      {...props}
+    >
+      {rootNote &&
+        <div className={`chords__wrapper ${bassNote ? 'bass-note-divisor' : ''}`}>
+          <div>
+            <span>{rootNote}</span>
+            {signature && <span className='chords__signature'>{signature}</span>}
+            {type && <span className='chords__type'>{type}</span>}
+            {descriptor && <span className='chords__descriptor'>{descriptor}</span>}
+          </div>
+          {bassNote && <span className='chords__bass-note'>{bassNote}</span>}
+        </div>}
+    </li>
+  )
+}
+
+export const MemoizedChord = React.memo(Chord)
 
 const SharedVirtualChordsListScrollContext = createContext({
   getScrollOffset: () => null,

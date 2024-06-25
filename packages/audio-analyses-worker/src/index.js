@@ -2,10 +2,10 @@ import { redisConfig } from '@chords-extractor/common'
 import { Worker } from 'bullmq'
 import { analyzeAudioProcessor } from './audioAnalyisProcessor.js'
 import { connectToDb as connectToMongoDb } from '@chords-extractor/common/mongo.js'
-import { loadPythonVenvPath } from './python.js'
+import { loadPythonVenvInterpreter } from './python.js'
 
 const main = async () => {
-  await loadPythonVenvPath()
+  await loadPythonVenvInterpreter()
 
   await connectToMongoDb()
 

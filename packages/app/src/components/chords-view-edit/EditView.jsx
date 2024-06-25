@@ -1,6 +1,5 @@
 import { useCallback } from 'react'
-import { MemoizedChord } from '../Chord'
-import { VirtualRowsChordsGrid } from '../VirtualRowsChordsGrid'
+import { VirtualRowsChordsGrid, MemoizedChord } from '../VirtualRowsChordsGrid'
 import { EditPopover } from './EditPopOver'
 import { checkIsCurrentChord } from '../../utils/checkIsCurrentChord'
 import { useYoutubePlayerContext } from '../YoutubePlayer'

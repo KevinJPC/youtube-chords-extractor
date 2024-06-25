@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useRef, useState } from 'react'
+import { createContext, useCallback, useContext, useDeferredValue, useRef, useState } from 'react'
 import './YoutubePlayer.css'
 import { Spinner } from './Spinner'
 import { BackWardIcon, PauseIcon, PlayIcon, SpeakerWaveIcon, SpeakerXMarkIcon } from './icons'
@@ -21,15 +21,12 @@ const initialPlayerState = {
   showIframe: false
 }
 
-const UPDATE_CURRENT_TIME_FREQUENCY_MS = 50
+const UPDATE_CURRENT_TIME_FREQUENCY_MS = 100
 
 const YoutubePlayerContext = createContext({
   ...initialPlayerState,
   togglePlay: () => {}
 })
-
-const SECONDS_BEFORE_SHOW_IFRAME = 0.3
-const SECONDS_BEFORE_HIDE_IFRAME = 1
 
 export const useYoutubePlayerContext = () => useContext(YoutubePlayerContext)
 
@@ -38,7 +35,7 @@ export const YoutubePlayerProvider = ({ children }) => {
   const currentTimeIntervalUpdaterIdRef = useRef(null)
 
   const [{ isReady, showIframe, status, currentTime, duration, volume: { current: currentVolume, previous: previousVolume } }, setPlayerState] = useState(initialPlayerState)
-
+  const deferredCurrentTime = useDeferredValue(currentTime)
   const isPlaying = status === PLAYER_STATUS.PLAYING
 
   const updatePlayerState = (newState) => {
@@ -49,30 +46,39 @@ export const YoutubePlayerProvider = ({ children }) => {
     if (currentTimeIntervalUpdaterIdRef.current) currentTimeIntervalUpdaterIdRef.current = clearInterval(currentTimeIntervalUpdaterIdRef.current)
   }
 
-  // video duration may change at the end
   const startCurrentTimeIntervalUpdater = () => {
-    currentTimeIntervalUpdaterIdRef.current = setInterval(() => {
-      const newCurrentTime = playerRef.current?.getCurrentTime()
-      updatePlayerState({ currentTime: newCurrentTime, showIframe: newCurrentTime > SECONDS_BEFORE_SHOW_IFRAME })
-    }, UPDATE_CURRENT_TIME_FREQUENCY_MS)
+    function updateTime () {
+      updatePlayerState({ currentTime: playerRef.current?.getCurrentTime() })
+    }
+    currentTimeIntervalUpdaterIdRef.current = setInterval(updateTime, UPDATE_CURRENT_TIME_FREQUENCY_MS)
   }
 
   useLoadYoutubeApi((YT) => {
     playerRef.current = new YT.Player('youtube-player', {
       events: {
-        onReady: () => {
+        onReady: (e) => {
           playerRef.current.setVolume(currentVolume)
           updatePlayerState({ isReady: true, duration: playerRef.current.getDuration() })
         },
+        // hidding and showing iframe when video starts and ends help to avoid youtube branding but is not 100% effective
         onStateChange: e => {
+          /* Clear interval and hide iframe when the video ends. Also, set current time to infinity to ensure the last beat is reached.
+          /* This is necessary because video duration is not always exact; it can vary by a few seconds,
+          /* but the difference between each beat of a song is often a matter of milliseconds.
+          */
           if (e.data === 0) {
-            updatePlayerState({ status: PLAYER_STATUS.ENDED, showIframe: false })
+            clearCurrentTimeIntervalUpdater()
+            updatePlayerState({ status: PLAYER_STATUS.ENDED, showIframe: false, currentTime: Infinity })
           }
+          // Show iframe when the video really starts playing
           if (e.data === 1) {
+            updatePlayerState({ showIframe: true })
             startCurrentTimeIntervalUpdater()
           }
-          if (e.data !== 1) {
+          // Update status and clear the interval when closing the picture-in-picture player in some browsers or when the app is left on mobile
+          if (e.data === 2) {
             clearCurrentTimeIntervalUpdater()
+            updatePlayerState({ status: PLAYER_STATUS.PAUSED })
           }
         }
       }
@@ -89,28 +95,22 @@ export const YoutubePlayerProvider = ({ children }) => {
   const togglePlay = () => {
     if (!isReady) return
     if (status === PLAYER_STATUS.PLAYING) {
+      clearCurrentTimeIntervalUpdater()
       playerRef.current.pauseVideo()
       updatePlayerState({ status: PLAYER_STATUS.PAUSED })
     } else {
       playerRef.current.playVideo()
-      updatePlayerState({ status: PLAYER_STATUS.PLAYING })
+      updatePlayerState({ status: PLAYER_STATUS.PLAYING, currentTime: playerRef.current.getCurrentTime() })
     }
-  }
-
-  const seekToStart = () => {
-    if (!isReady) return
-    clearCurrentTimeIntervalUpdater()
-    playerRef.current.seekTo(0)
-    updatePlayerState({ currentTime: 0, status: status === PLAYER_STATUS.ENDED ? PLAYER_STATUS.PLAYING : status })
   }
 
   const seekTo = useCallback((time) => {
     if (!isReady) return
     clearCurrentTimeIntervalUpdater()
     playerRef.current.seekTo(time)
-    playerRef.current.playVideo()
     updatePlayerState({ status: PLAYER_STATUS.PLAYING, currentTime: time })
-  }, [isReady])
+    if (status === PLAYER_STATUS.PAUSED) playerRef.current.playVideo()
+  }, [isReady, status, clearCurrentTimeIntervalUpdater, updatePlayerState, playerRef.current])
 
   const setVolume = (newCurrentVolume) => {
     if (!isReady) return
@@ -123,12 +123,11 @@ export const YoutubePlayerProvider = ({ children }) => {
       isReady,
       status,
       duration,
-      currentTime,
+      currentTime: deferredCurrentTime,
       currentVolume,
       previousVolume,
       togglePlay,
       isPlaying,
-      seekToStart,
       setVolume,
       seekTo,
       showIframe
@@ -151,7 +150,7 @@ export const YoutubePlayer = ({ youtubeId, className = '', thumbnailUrl = getYou
         className={`player__iframe ${showIframe ? 'player__iframe--playing' : ''}`}
         src={`https://www.youtube-nocookie.com/embed/${youtubeId}?playsinline=1&controls=0&disablekb=1&fs=0&enablejsapi=1&origin=${window.location.origin}&rel=0&iv_load_policy=3`}
         title='YouTube video player'
-        allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+        allow='autoplay'
         referrerPolicy='strict-origin-when-cross-origin'
         tabIndex='-1'
       />
@@ -229,9 +228,9 @@ export const TogglePlayButton = ({ className = '' }) => {
 }
 
 export const SeekToStartButton = ({ className = '' }) => {
-  const { seekToStart } = useYoutubePlayerContext()
+  const { seekTo } = useYoutubePlayerContext()
   return (
-    <button className={`${className}`} onClick={seekToStart}>
+    <button className={`${className}`} onClick={() => seekTo(0)}>
       <BackWardIcon />
     </button>
   )

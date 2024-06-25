@@ -1,13 +1,12 @@
 import { queryClient } from '../config/queryClient.js'
 
-export const useUpdateSearchYoutubeQueryData = (q) => {
-  const updateResult = ({ youtubeId, data }) => {
+export const useUpdateSearchYoutubeQueryData = () => {
+  const updateResult = ({ q, youtubeId, data }) => {
     const searchData = queryClient.getQueryData(['search', q])
-
-    for (let resultIndex = 0; resultIndex < searchData.length; resultIndex++) {
-      const result = searchData[resultIndex]
+    for (let resultIndex = 0; resultIndex < searchData.results.length; resultIndex++) {
+      const result = searchData.results[resultIndex]
       if (result.youtubeId === youtubeId) {
-        searchData[resultIndex] = {
+        searchData.results[resultIndex] = {
           ...result,
           ...data
         }

@@ -8,8 +8,8 @@ import { useSearchParams } from './useSearchParams'
 
 export const useAnalyzeResults = () => {
   const [selectedResultId, setSelectedResultId] = useState(null)
-  const { q: currentQuery } = useSearchParams()
-  const { updateResult } = useUpdateSearchYoutubeQueryData(currentQuery)
+  const { q } = useSearchParams()
+  const { updateResult } = useUpdateSearchYoutubeQueryData()
   const [, navigate] = useLocation()
 
   const {
@@ -36,6 +36,7 @@ export const useAnalyzeResults = () => {
     if (!jobIsCompleted) return
 
     updateResult({
+      q,
       youtubeId: jobResult.youtubeId,
       data: {
         isAnalyzed: true,

@@ -1,6 +1,5 @@
 export const checkIsCurrentChord = ({ currentIndex, lastIndex, timestamp, nextTimestamp, currentTime }) => {
-  const isDuringBeatDuration = (nextTimestamp && timestamp <= currentTime && currentTime < nextTimestamp)
-  const isBeforeFirstBeat = (currentIndex === 0 && currentTime < timestamp)
-  const isAfterLastBeat = (currentIndex === lastIndex && currentTime >= timestamp)
-  return isDuringBeatDuration || isBeforeFirstBeat || isAfterLastBeat
+  return (nextTimestamp && timestamp <= currentTime && currentTime < nextTimestamp) || // is current
+  (currentIndex === 0 && currentTime < timestamp) || // is first beat
+  (currentIndex === lastIndex && currentTime >= timestamp) // is last beat
 }
