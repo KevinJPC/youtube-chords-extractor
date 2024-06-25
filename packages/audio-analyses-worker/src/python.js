@@ -70,6 +70,9 @@ export const analyzeAudioWithPython = async ({
           const chordsPerBeatsMapped = chordsPerBeats.map(({ timestamp, chord }) => ({ timestamp, chord }))
           return resolve({ bpm, chordsPerBeats: chordsPerBeatsMapped })
         }
+        if (response.status === RESPONSE_STATUS.ERROR) {
+          return reject(new Error(response?.errorMessage || 'An error had happend'))
+        }
       } catch (error) {
         reject(error)
       }
