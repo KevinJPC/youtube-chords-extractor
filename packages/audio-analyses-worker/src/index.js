@@ -21,19 +21,15 @@ const main = async () => {
     console.log('Worker is ready')
   })
   audioAnalysesWorker.on('active', (job) => {
-    console.log('active:', job.data?.youtubeId)
+    console.log(`Job [${job.id}] active.`)
   })
 
   audioAnalysesWorker.on('completed', (job) => {
-    console.log('completed:', job.data?.youtubeId)
-  })
-
-  audioAnalysesWorker.on('waiting', (job) => {
-    console.log('waiting:', job.data?.youtubeId)
+    console.log(`Job [${job.id}] completed.`)
   })
 
   audioAnalysesWorker.on('failed', (job, err) => {
-    console.log('error:', job.data?.youtubeId, err)
+    console.log(`Job [${job.id}] failed.`, `\n${err}`)
   })
 }
 

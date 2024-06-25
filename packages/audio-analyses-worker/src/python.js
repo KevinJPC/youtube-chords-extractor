@@ -70,7 +70,6 @@ export const analyzeAudioWithPython = async ({
           const chordsPerBeatsMapped = chordsPerBeats.map(({ timestamp, chord }) => ({ timestamp, chord }))
           return resolve({ bpm, chordsPerBeats: chordsPerBeatsMapped })
         }
-        return reject(response?.message || 'Error analyzing audio')
       } catch (error) {
         reject(error)
       }
@@ -82,9 +81,7 @@ export const analyzeAudioWithPython = async ({
 
     pythonProcess.on('exit', (code) => {
       if (code !== 0) {
-        console.log('error', code)
-        console.error('error analyzing audio error: ', error)
-        reject(new Error('Error analyzing audio'))
+        reject(new Error(error || 'Error analyzing audio'))
       }
     })
   })
