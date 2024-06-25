@@ -82,6 +82,10 @@ export const analyzeAudioWithPython = async ({
       error += data.toString()
     })
 
+    pythonProcess.on('error', (err) => {
+      reject(err || 'An error ocurred analyzing audio')
+    })
+
     pythonProcess.on('exit', (code) => {
       if (code !== 0) {
         reject(new Error(error || 'Error analyzing audio'))
