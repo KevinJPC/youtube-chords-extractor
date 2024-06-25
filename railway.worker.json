@@ -7,6 +7,9 @@
     "nixpacksPlan": {
       "providers": ["...", "python"],
       "phases": {
+        "setup": {
+          "nixPkgs": ["...", "ffmpeg"]
+        },
         "install": {
           "cmds": [
             "npm ci --omit=dev --workspace=packages/audio-analyses-worker --workspace=packages/common"
