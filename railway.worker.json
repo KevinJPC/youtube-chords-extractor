@@ -9,7 +9,7 @@
       "phases": {
         "install": {
           "cmds": [
-            "npm ci --omit=dev --workspace=packages/worker --workspace=packages/common"
+            "npm ci --workspace=packages/audio-analyses-worker --workspace=packages/common --omit=dev"
           ] 
         },
         "python:install": {
