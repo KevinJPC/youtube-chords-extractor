@@ -29,7 +29,7 @@ const main = async () => {
   })
 
   audioAnalysesWorker.on('failed', (job, err) => {
-    console.log(`Job [${job.id}] failed.`, `\n${err}`)
+    console.log(`Job [${job.id}] failed.`, `\n ${err}`)
   })
 }
 
