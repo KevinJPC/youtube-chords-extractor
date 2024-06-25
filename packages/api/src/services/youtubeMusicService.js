@@ -66,6 +66,7 @@ export class YoutubeMusicService {
           }
         : undefined
     } catch (error) {
+      console.log(error)
       return undefined
     }
   }
